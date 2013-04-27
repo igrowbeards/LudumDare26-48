@@ -38,7 +38,6 @@ class MenuState extends FlxState {
 	public var rlifeBar:FlxBar;
 	public var glifeBar:FlxBar;
 	public var blifeBar:FlxBar;
-	public var shrine:ColorShrine;
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
@@ -78,10 +77,6 @@ class MenuState extends FlxState {
 		wBlocks = new FlxGroup();
 		add(wBlocks);
 
-		shrine = new ColorShrine(12,16);
-		add(shrine);
-		Registry.shrine = shrine;
-
 		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
 		add(rlifeBar);
 
@@ -106,7 +101,6 @@ class MenuState extends FlxState {
 		FlxG.collide(rBlocks,player,playerHitRBlock);
 		FlxG.collide(bBlocks,player,playerHitBBlock);
 		FlxG.collide(gBlocks,player,playerHitGBlock);
-		FlxG.overlap(shrine,player,changeColor);
 		FlxG.collide(player,pBlocks);
 		FlxG.collide(player,yBlocks);
 		FlxG.collide(player,cBlocks);
@@ -170,10 +164,6 @@ class MenuState extends FlxState {
 			}
 
 		}
-	}
-
-	public function changeColor(shrineRef:FlxObject,playerRef:FlxObject) {
-		Registry.player.currentColor = Registry.shrine.currentColor;
 	}
 
 	public function RBcollide(b1:FlxObject,b2:FlxObject) {

@@ -91,6 +91,44 @@ class Player extends FlxSprite {
 			}
 		}
 
+		if (x < 0) {
+			x = 0;
+		}
+
+		if (x > FlxG.width - this.width) {
+			x = FlxG.width - this.width;
+		}
+
+		if (y < 0) {
+			y = 0;
+		}
+
+		if (y > FlxG.height - this.height) {
+			y = FlxG.height - this.height;
+		}
+
+		// switch color controls
+		if (FlxG.keys.justPressed("ONE")) {
+			currentColor = 'red';
+		}
+		else if (FlxG.keys.justPressed("TWO")) {
+			currentColor = 'green';
+		}
+		else if (FlxG.keys.justPressed("THREE")) {
+			currentColor = 'blue';
+		}
+
+		if (FlxG.keys.justPressed("SPACE")) {
+			switch (currentColor) {
+				case 'red':
+					currentColor = 'blue';
+				case 'blue':
+					currentColor = 'green';
+				case 'green':
+					currentColor = 'red';
+				}
+		}
+
 	}
 
 	public function resetController():Void {
