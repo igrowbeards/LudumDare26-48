@@ -86,6 +86,13 @@ class MenuState extends FlxState {
 		FlxG.collide(bBlocks,player,playerHitBBlock);
 		FlxG.collide(gBlocks,player,playerHitGBlock);
 		FlxG.overlap(shrine,player,changeColor);
+
+		// gameover condition
+		if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
+			FlxG.resetState();
+			Registry.player.resetController();
+		}
+
 	}
 
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
@@ -130,6 +137,7 @@ class MenuState extends FlxState {
 	public function changeColor(shrineRef:FlxObject,playerRef:FlxObject) {
 		Registry.player.currentColor = Registry.shrine.currentColor;
 	}
+
 
 
 }

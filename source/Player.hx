@@ -67,13 +67,28 @@ class Player extends FlxSprite {
 		}
 
 		if (currentColor == 'red') {
-			color = 0xffff0000;
+			if (rlife > 0) {
+				color = 0xffff0000;
+			}
+			else {
+				currentColor = 'green';
+			}
 		}
 		else if (currentColor == 'green') {
-			color = 0xff00ff00;
+			if (glife > 0) {
+				color = 0xff00ff00;
+			}
+			else {
+				currentColor = 'blue';
+			}
 		}
 		else if (currentColor == 'blue') {
-			color = 0xff0000ff;
+			if (blife > 0) {
+				color = 0xff0000ff;
+			}
+			else {
+				currentColor = 'red';
+			}
 		}
 
 	}
