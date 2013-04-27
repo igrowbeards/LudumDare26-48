@@ -9,9 +9,9 @@ import org.flixel.plugin.photonstorm.FlxControlHandler;
 
 class Player extends FlxSprite {
 
-	public var red:Bool = false;
+	public var red:Bool = true;
 	public var green:Bool = false;
-	public var blue:Bool = true;
+	public var blue:Bool = false;
 
 	public var rlife:Int = 100;
 	public var glife:Int = 100;
@@ -65,6 +65,16 @@ class Player extends FlxSprite {
 		}
 		else if (velocity.y > 0 && velocity.x == 0) {
 			play("walk_down");
+		}
+
+		if (red) {
+			color = 0xffff0000;
+		}
+		else if (green) {
+			color = 0xff00ff00;
+		}
+		else if (blue) {
+			color = 0xff0000ff;
 		}
 
 	}

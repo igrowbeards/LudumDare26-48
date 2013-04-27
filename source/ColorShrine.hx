@@ -6,31 +6,38 @@ import org.flixel.FlxObject;
 
 class ColorShrine extends FlxSprite {
 
+	private var colorTimer:Float;
+	private var colorTime:Float = 0.5;
+	public var currentColor:String;
+
 	override public function new(X:Int,Y:Int) {
-
 		super(X * 16,Y * 16);
+		loadGraphic("assets/colorshrine.png");
 		immovable = true;
-
+		colorTimer = colorTime;
+		currentColor = 'red';
+		color = 0xffff0000;
 	}
 
 	override public function update() {
-
-		if (x < screenBuffer) {
-			x = screenBuffer;
+		FlxG.log(currentColor);
+		if (colorTimer >= 0) {
+			colorTimer -= FlxG.elapsed;
 		}
-
-		if (x > FlxG.width - this.width - screenBuffer) {
-			x = FlxG.width - this.width - screenBuffer;
+		else {
+			switch(currentColor) {
+				case 'red':
+					currentColor = 'blue';
+					color = 0xff0000ff;
+				case 'green':
+					currentColor = 'red';
+					color = 0xffff0000;
+				case 'blue':
+					currentColor = 'green';
+					color = 0xff00ff00;
+			}
+			colorTimer = colorTime;
 		}
-
-		if (y < screenBuffer) {
-			y = screenBuffer;
-		}
-
-		if (y > FlxG.height - this.height - screenBuffer) {
-			y = FlxG.height - this.height - screenBuffer;
-		}
-
 	}
 
 }

@@ -30,14 +30,18 @@ class MenuState extends FlxState {
 	public var rlifeBar:FlxBar;
 	public var glifeBar:FlxBar;
 	public var blifeBar:FlxBar;
+	public var shrine:ColorShrine;
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
-		blockMat = new FlxSprite(50,50);
-		blockMat.makeGraphic(FlxG.width -100, FlxG.height - 100, 0x11ffffff);
+		blockMat = new FlxSprite(49,49);
+		//blockMat.makeGraphic(FlxG.width -100, FlxG.height - 100, 0x11ffffff);
+		blockMat.loadGraphic("assets/bounds.png");
 		add(blockMat);
+
+		//add(new FlxBackdrop("assets/temp_grid.png",true,true));
 
 		player = new Player(2,3);
 		add(player);
@@ -55,6 +59,9 @@ class MenuState extends FlxState {
 		gBlocks.add(new GBlock(10,5));
 		add(gBlocks);
 
+		shrine = new ColorShrine(12,16);
+		add(shrine);
+
 		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
 		add(rlifeBar);
 
@@ -63,6 +70,8 @@ class MenuState extends FlxState {
 
 		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
 		add(blifeBar);
+
+		FlxG.log(FlxG.height + ", " + FlxG.width);
 
  	}
 
