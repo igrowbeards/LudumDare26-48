@@ -180,7 +180,7 @@ class MenuState extends FlxState {
 		var p:Player = cast(playerRef,Player);
 		var b:RBlock = cast(blockRef,RBlock);
 		if (Registry.player.currentColor != 'red') {
-			p.hurting = true;
+			p.hurtzDonut();
 			if (Registry.player.currentColor == 'blue') {
 				p.blife--;
 			}
@@ -195,7 +195,7 @@ class MenuState extends FlxState {
 		var p:Player = cast(playerRef,Player);
 		var b:BBlock = cast(blockRef,BBlock);
 		if (Registry.player.currentColor != 'blue') {
-			p.hurting = true;
+			p.hurtzDonut();
 			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}
@@ -210,7 +210,7 @@ class MenuState extends FlxState {
 		var p:Player = cast(playerRef,Player);
 		var b:GBlock = cast(blockRef,GBlock);
 		if (Registry.player.currentColor != 'green') {
-			p.hurting = true;
+			p.hurtzDonut();
 			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}

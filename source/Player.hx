@@ -12,7 +12,9 @@ class Player extends FlxSprite {
 	public var glife:Int = 3;
 	public var blife:Int = 3;
 	public var currentColor:String;
-	public var hurting:Bool = true;
+	public var hurting:Bool;
+	public var hurtTimer:Float;
+	public var hurtTime:Float = .25;
 	private var moveTimer:Float = 0;
 	public var moveTime:Float = 0.2;
 	private var targetX:Float;
@@ -39,6 +41,7 @@ class Player extends FlxSprite {
 
 		currentColor = 'red';
 		immovable = true;
+		hurtTimer = hurtTime;
 
 	}
 
@@ -102,31 +105,30 @@ class Player extends FlxSprite {
 		}
 
 		// animations
-
 		if (facing == FlxObject.RIGHT || facing == FlxObject.LEFT) {
-			if (!hurting) {
-				play("idle");
+			if (hurting) {
+				play('hurt_side');
 			}
 			else {
-				play('hurt_side');
+				play("idle");
 			}
 		}
 
 		if (facing == FlxObject.DOWN) {
-			if (!hurting) {
-				play("idle_down");
+			if (hurting) {
+				play('hurt_down');
 			}
 			else {
-				play('hurt_down');
+				play("idle_down");
 			}
 		}
 
 		if (facing == FlxObject.UP) {
-			if (!hurting) {
-				play("idle_up");
+			if (hurting) {
+				play('hurt_up');
 			}
 			else {
-				play('hurt_up');
+				play("idle_up");
 			}
 		}
 
@@ -199,8 +201,21 @@ class Player extends FlxSprite {
 			}
 		}
 
-		hurting = false;
+		if (hurting) {
+			color = 0xfffffff;
+			if (hurtTimer <= 0) {
+				hurting = false;
+				hurtTimer = hurtTime;
+			}
+			else {
+				hurtTimer -= FlxG.elapsed;
+			}
+		}
 
+	}
+
+	public function hurtzDonut() {
+		hurting = true;
 	}
 
 }
