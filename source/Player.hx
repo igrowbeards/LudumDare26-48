@@ -66,4 +66,5 @@ class Player extends FlxSprite {
 	public function resetController():Void {
 		FlxControl.clear();
 	}
+
 }
