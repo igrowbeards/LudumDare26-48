@@ -130,6 +130,7 @@ class MenuState extends FlxState {
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
 		if (Registry.player.currentColor != 'red') {
+			p.hurting = true;
 			if (Registry.player.currentColor == 'blue') {
 				p.blife--;
 			}
@@ -143,6 +144,7 @@ class MenuState extends FlxState {
 	public function playerHitBBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
 		if (Registry.player.currentColor != 'blue') {
+			p.hurting = true;
 			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}
@@ -156,6 +158,7 @@ class MenuState extends FlxState {
 	public function playerHitGBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
 		if (Registry.player.currentColor != 'green') {
+			p.hurting = true;
 			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}

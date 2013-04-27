@@ -13,12 +13,13 @@ class Player extends FlxSprite {
 	public var glife:Int = 100;
 	public var blife:Int = 100;
 	public var currentColor:String;
+	public var hurting:Bool;
 
 	override public function new(X:Int,Y:Int) {
 
 		super(X * 16,Y * 16);
 
-		loadGraphic("assets/player.png",true,true,16,16,true);
+		loadGraphic("assets/player.png",true,true,20,20,true);
 
 		addAnimation("idle", [0,1], 2, true);
 		addAnimation("walk", [0,2,0,3], 10, true);
@@ -26,6 +27,9 @@ class Player extends FlxSprite {
 		addAnimation("walk_down", [4,6,4,7], 10, true);
 		addAnimation("idle_up", [8,9], 2, true);
 		addAnimation("walk_up", [8,10,8,11], 10, true);
+		addAnimation("hurt_down", [16,17,18,19], 15, true);
+		addAnimation("hurt_side", [12,13,14,15], 15, true);
+		addAnimation("hurt_up", [21,22,23,24], 15, true);
 
 		play("idle");
 
@@ -43,8 +47,15 @@ class Player extends FlxSprite {
 
 	override public function update() {
 
+
 		if (velocity.x != 0 && velocity.y >= 0) {
-			play("walk");
+			if (hurting) {
+				play("hurt_side");
+				color = 0x00ffffff;
+			}
+			else {
+				play("walk");
+			}
 		}
 
 		if (velocity.y == 0 && velocity.x == 0) {
@@ -59,16 +70,30 @@ class Player extends FlxSprite {
 			}
 		}
 
-		if ( velocity.y < 0 && velocity.x == 0) {
-			play("walk_up");
+		if (velocity.y < 0 && velocity.x == 0) {
+			if (hurting) {
+				play('hurt_up');
+				color = 0x00ffffff;
+			}
+			else {
+				play("walk_up");
+			}
 		}
 		else if (velocity.y > 0 && velocity.x == 0) {
-			play("walk_down");
+			if (hurting) {
+				play("hurt_down");
+				color = 0x00ffffff;
+			}
+			else {
+				play("walk_down");
+			}
 		}
 
 		if (currentColor == 'red') {
 			if (rlife > 0) {
-				color = 0xffff0000;
+				if (!hurting) {
+					color = 0xffff0000;
+				}
 			}
 			else {
 				currentColor = 'green';
@@ -76,7 +101,9 @@ class Player extends FlxSprite {
 		}
 		else if (currentColor == 'green') {
 			if (glife > 0) {
-				color = 0xff00ff00;
+				if (!hurting) {
+					color = 0xff00ff00;
+				}
 			}
 			else {
 				currentColor = 'blue';
@@ -84,7 +111,9 @@ class Player extends FlxSprite {
 		}
 		else if (currentColor == 'blue') {
 			if (blife > 0) {
-				color = 0xff0000ff;
+				if (!hurting) {
+					color = 0xff0000ff;
+				}
 			}
 			else {
 				currentColor = 'red';
@@ -128,6 +157,8 @@ class Player extends FlxSprite {
 					currentColor = 'red';
 				}
 		}
+
+		hurting = false;
 
 	}
 
