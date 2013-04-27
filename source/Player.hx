@@ -8,13 +8,13 @@ import org.flixel.tweens.motion.LinearMotion;
 
 class Player extends FlxSprite {
 
-	public var rlife:Int = 20;
-	public var glife:Int = 20;
-	public var blife:Int = 20;
+	public var rlife:Int = 3;
+	public var glife:Int = 3;
+	public var blife:Int = 3;
 	public var currentColor:String;
-	public var hurting:Bool;
+	public var hurting:Bool = true;
 	private var moveTimer:Float = 0;
-	public var moveTime:Float = 0.25;
+	public var moveTime:Float = 0.2;
 	private var targetX:Float;
 	private var targetY:Float;
 
@@ -29,11 +29,8 @@ class Player extends FlxSprite {
 		offset.x = 2;
 
 		addAnimation("idle", [0,1], 2, true);
-		addAnimation("walk", [0,2,0,3], 10, true);
 		addAnimation("idle_down", [4,5], 2, true);
-		addAnimation("walk_down", [4,6,4,7], 10, true);
 		addAnimation("idle_up", [8,9], 2, true);
-		addAnimation("walk_up", [8,10,8,11], 10, true);
 		addAnimation("hurt_down", [16,17,18,19], 15, true);
 		addAnimation("hurt_side", [12,13,14,15], 15, true);
 		addAnimation("hurt_up", [21,22,23,24], 15, true);
@@ -106,46 +103,33 @@ class Player extends FlxSprite {
 
 		// animations
 
-		if (velocity.x != 0 && velocity.y >= 0) {
-			if (hurting) {
-				play("hurt_side");
-				color = 0x00ffffff;
+		if (facing == FlxObject.RIGHT || facing == FlxObject.LEFT) {
+			if (!hurting) {
+				play("idle");
 			}
 			else {
-				play("walk");
+				play('hurt_side');
 			}
 		}
 
-		if (velocity.y == 0 && velocity.x == 0) {
-			if (facing == FlxObject.DOWN) {
+		if (facing == FlxObject.DOWN) {
+			if (!hurting) {
 				play("idle_down");
 			}
-			else if (facing == FlxObject.UP){
+			else {
+				play('hurt_down');
+			}
+		}
+
+		if (facing == FlxObject.UP) {
+			if (!hurting) {
 				play("idle_up");
 			}
 			else {
-				play("idle");
+				play('hurt_up');
 			}
 		}
 
-		if (velocity.y < 0 && velocity.x == 0) {
-			if (hurting) {
-				play('hurt_up');
-				color = 0x00ffffff;
-			}
-			else {
-				play("walk_up");
-			}
-		}
-		else if (velocity.y > 0 && velocity.x == 0) {
-			if (hurting) {
-				play("hurt_down");
-				color = 0x00ffffff;
-			}
-			else {
-				play("walk_down");
-			}
-		}
 
 		if (currentColor == 'red') {
 			if (rlife > 0) {
@@ -192,12 +176,27 @@ class Player extends FlxSprite {
 		if (FlxG.keys.justPressed("SPACE")) {
 			switch (currentColor) {
 				case 'red':
-					currentColor = 'blue';
+					if (blife > 0) {
+						currentColor = 'blue';
+					}
+					else if (glife > 0) {
+						currentColor = 'green';
+					}
 				case 'blue':
-					currentColor = 'green';
+					if (glife > 0) {
+						currentColor = 'green';
+					}
+					else if (rlife > 0) {
+						currentColor = 'red';
+					}
 				case 'green':
-					currentColor = 'red';
-				}
+					if (rlife > 0) {
+						currentColor = 'red';
+					}
+					else if (blife > 0) {
+						currentColor = 'blue';
+					}
+			}
 		}
 
 		hurting = false;

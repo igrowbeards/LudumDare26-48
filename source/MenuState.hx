@@ -42,6 +42,9 @@ class MenuState extends FlxState {
 	private var spawnTimer:Float;
 	private var spawnTime:Float = 1;
 
+	public var timerText:FlxText;
+	public var gameTime:Float = 60;
+
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
@@ -101,6 +104,11 @@ class MenuState extends FlxState {
 		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
 		add(blifeBar);
 
+		timerText = new FlxText(0,10,FlxG.width, "Time");
+		timerText.alignment = 'center';
+		timerText.size = 16;
+		add(timerText);
+
  	}
 
 	override public function destroy():Void {
@@ -109,6 +117,9 @@ class MenuState extends FlxState {
 
 	override public function update():Void {
 		super.update();
+
+		timerText.text = Std.string(Std.int(gameTime));
+		gameTime -= FlxG.elapsed;
 
 		// player collisions
 		FlxG.overlap(rBlocks,player,playerHitRBlock);
@@ -141,8 +152,12 @@ class MenuState extends FlxState {
 		FlxG.collide(yBlocks,rBlocks);
 		FlxG.collide(yBlocks,gBlocks);
 
-		// gameover condition
+		// gameover conditions
 		if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
+			FlxG.resetState();
+		}
+
+		if (gameTime <= 0) {
 			FlxG.resetState();
 		}
 
@@ -150,7 +165,7 @@ class MenuState extends FlxState {
 			FlxG.resetState();
 		}
 
-		/*
+
 		if (spawnTimer >= 0) {
 			spawnTimer -= FlxG.elapsed;
 		}
@@ -158,7 +173,6 @@ class MenuState extends FlxState {
 			spawnBlock();
 			spawnTimer = spawnTime;
 		}
-		*/
 
 	}
 
@@ -223,6 +237,8 @@ class MenuState extends FlxState {
 	}
 
 	public function makeWhiteBlock(b1:FlxObject,b2:FlxObject) {
+		FlxG.score += 100;
+		gameTime += 5;
 		var spawn:FlxPoint = blockFuse(b1,b2);
 		wBlocks.add(new WBlock(Std.int(spawn.x),Std.int(spawn.y)));
 	}

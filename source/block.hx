@@ -9,7 +9,7 @@ class Block extends FlxSprite {
 	private var screenBuffer:Int = 50;
 	private var friction:Int = 300;
 	private var colTimer:Float;
-	private var colTime:Float  = .2;
+	private var colTime:Float  = .1;
 
 	override public function new(X:Int,Y:Int) {
 
