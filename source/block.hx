@@ -8,6 +8,7 @@ class Block extends FlxSprite {
 
 	private var screenBuffer:Int = 50;
 	private var friction:Int = 300;
+	private var justCreated:Bool = true;
 
 	override public function new(X:Int,Y:Int) {
 
@@ -22,6 +23,12 @@ class Block extends FlxSprite {
 
 		if (x < screenBuffer) {
 			x = screenBuffer;
+		}
+
+		if (justCreated) {
+			x++;
+			x--;
+			justCreated = false;
 		}
 
 		if (x > FlxG.width - this.width - screenBuffer) {

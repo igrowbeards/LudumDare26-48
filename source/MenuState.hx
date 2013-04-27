@@ -40,7 +40,7 @@ class MenuState extends FlxState {
 	public var blifeBar:FlxBar;
 
 	private var spawnTimer:Float;
-	private var spawnTime:Float = 0.5;
+	private var spawnTime:Float = 0.1;
 
 
 	override public function create():Void {
@@ -116,6 +116,23 @@ class MenuState extends FlxState {
 		FlxG.collide(yBlocks,bBlocks,makeWhiteBlock);
 		FlxG.collide(pBlocks,gBlocks,makeWhiteBlock);
 
+		// blocks collide with themselves
+		FlxG.collide(rBlocks,rBlocks);
+		FlxG.collide(bBlocks,bBlocks);
+		FlxG.collide(gBlocks,gBlocks);
+		FlxG.collide(bBlocks,bBlocks);
+		FlxG.collide(pBlocks,pBlocks);
+		FlxG.collide(yBlocks,yBlocks);
+		FlxG.collide(cBlocks,cBlocks);
+
+		// blocks collide with all other non merging blocks
+		FlxG.collide(cBlocks,bBlocks);
+		FlxG.collide(cBlocks,gBlocks);
+		FlxG.collide(pBlocks,rBlocks);
+		FlxG.collide(pBlocks,bBlocks);
+		FlxG.collide(yBlocks,rBlocks);
+		FlxG.collide(yBlocks,gBlocks);
+
 		// gameover condition
 		if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
 			FlxG.resetState();
@@ -127,6 +144,8 @@ class MenuState extends FlxState {
 			Registry.player.resetController();
 		}
 
+		/*
+
 		if (spawnTimer >= 0) {
 			spawnTimer -= FlxG.elapsed;
 		}
@@ -134,6 +153,8 @@ class MenuState extends FlxState {
 			spawnBlock();
 			spawnTimer = spawnTime;
 		}
+
+		*/
 
 	}
 
@@ -203,16 +224,16 @@ class MenuState extends FlxState {
 		var fuseX:Int;
 		var fuseY:Int;
 		if (b1.x > b2.x) {
-			fuseX = Std.int(b1.x - (b1.x - b2.x) / 2);
+			fuseX = Std.int(b1.x);
 		}
 		else {
-			fuseX = Std.int(b2.x - (b2.x - b1.x) / 2);
+			fuseX = Std.int(b2.x);
 		}
 		if (b1.y > b2.y) {
-			fuseY = Std.int( b1.y - (b1.y - b2.y) / 2);
+			fuseY = Std.int(b1.y);
 		}
 		else {
-			fuseY = Std.int( b2.y - (b2.y - b1.y) / 2);
+			fuseY = Std.int(b2.y);
 		}
 		b1.exists = false;
 		b2.exists = false;
