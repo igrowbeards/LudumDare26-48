@@ -7,7 +7,7 @@ import org.flixel.FlxObject;
 class ColorShrine extends FlxSprite {
 
 	private var colorTimer:Float;
-	private var colorTime:Float = 0.5;
+	private var colorTime:Float = 1.5;
 	public var currentColor:String;
 
 	override public function new(X:Int,Y:Int) {

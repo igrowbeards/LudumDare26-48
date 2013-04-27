@@ -10,6 +10,7 @@ class Registry {
 
     public static var player:Player;
     public static var level:FlxTilemap;
+    public static var shrine:ColorShrine;
 
     public static function erase():Void {
         player = null;

@@ -61,6 +61,7 @@ class MenuState extends FlxState {
 
 		shrine = new ColorShrine(12,16);
 		add(shrine);
+		Registry.shrine = shrine;
 
 		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
 		add(rlifeBar);
@@ -84,15 +85,16 @@ class MenuState extends FlxState {
 		FlxG.collide(rBlocks,player,playerHitRBlock);
 		FlxG.collide(bBlocks,player,playerHitBBlock);
 		FlxG.collide(gBlocks,player,playerHitGBlock);
+		FlxG.overlap(shrine,player,changeColor);
 	}
 
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
-		if (!Registry.player.red) {
-			if (Registry.player.blue) {
+		if (Registry.player.currentColor != 'red') {
+			if (Registry.player.currentColor == 'blue') {
 				p.blife--;
 			}
-			else if (Registry.player.green) {
+			else if (Registry.player.currentColor == 'green') {
 				p.glife--;
 			}
 
@@ -101,11 +103,11 @@ class MenuState extends FlxState {
 
 	public function playerHitBBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
-		if (!Registry.player.blue) {
-			if (Registry.player.red) {
+		if (Registry.player.currentColor != 'blue') {
+			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}
-			else if (Registry.player.green) {
+			else if (Registry.player.currentColor == 'green') {
 				p.glife--;
 			}
 
@@ -114,15 +116,19 @@ class MenuState extends FlxState {
 
 	public function playerHitGBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
-		if (!Registry.player.green) {
-			if (Registry.player.red) {
+		if (Registry.player.currentColor != 'green') {
+			if (Registry.player.currentColor == 'red') {
 				p.rlife--;
 			}
-			else if (Registry.player.blue) {
+			else if (Registry.player.currentColor == 'blue') {
 				p.blife--;
 			}
 
 		}
+	}
+
+	public function changeColor(shrineRef:FlxObject,playerRef:FlxObject) {
+		Registry.player.currentColor = Registry.shrine.currentColor;
 	}
 
 

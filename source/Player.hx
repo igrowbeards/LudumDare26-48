@@ -9,13 +9,10 @@ import org.flixel.plugin.photonstorm.FlxControlHandler;
 
 class Player extends FlxSprite {
 
-	public var red:Bool = true;
-	public var green:Bool = false;
-	public var blue:Bool = false;
-
 	public var rlife:Int = 100;
 	public var glife:Int = 100;
 	public var blife:Int = 100;
+	public var currentColor:String;
 
 	override public function new(X:Int,Y:Int) {
 
@@ -39,6 +36,8 @@ class Player extends FlxSprite {
 		FlxControl.create(this, FlxControlHandler.MOVEMENT_INSTANT, FlxControlHandler.STOPPING_INSTANT, 1, true, true);
 		FlxControl.player1.setCursorControl(true,true,true,true);
 		FlxControl.player1.setStandardSpeed(150);
+
+		currentColor = 'red';
 
 	}
 
@@ -67,13 +66,13 @@ class Player extends FlxSprite {
 			play("walk_down");
 		}
 
-		if (red) {
+		if (currentColor == 'red') {
 			color = 0xffff0000;
 		}
-		else if (green) {
+		else if (currentColor == 'green') {
 			color = 0xff00ff00;
 		}
-		else if (blue) {
+		else if (currentColor == 'blue') {
 			color = 0xff0000ff;
 		}
 
