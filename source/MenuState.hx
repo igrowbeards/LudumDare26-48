@@ -45,16 +45,15 @@ class MenuState extends FlxState {
 	public var timerText:FlxText;
 	public var gameTime:Float = 60;
 
-
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
-		blockMat = new FlxSprite(49,49);
+		blockMat = new FlxSprite(47,47);
 		blockMat.loadGraphic("assets/bounds.png");
 		add(blockMat);
 
-		//add(new FlxBackdrop("assets/temp_grid.png",true,true));
+		add(new FlxBackdrop("assets/grid.png",true,true));
 
 		rBlocks = new FlxGroup();
 		rBlocks.add(new RBlock(4,5));
@@ -88,6 +87,7 @@ class MenuState extends FlxState {
 		Registry.cBlocks = cBlocks;
 
 		wBlocks = new FlxGroup();
+		wBlocks.add(new WBlock(15 * 16,15 * 16));
 		add(wBlocks);
 
 		player = new Player(3,3);
@@ -104,8 +104,8 @@ class MenuState extends FlxState {
 		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
 		add(blifeBar);
 
-		timerText = new FlxText(0,10,FlxG.width, "Time");
-		timerText.alignment = 'center';
+		timerText = new FlxText(0,12,FlxG.width - 50, "Time");
+		timerText.alignment = 'right';
 		timerText.size = 16;
 		add(timerText);
 

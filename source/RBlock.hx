@@ -9,6 +9,7 @@ class RBlock extends Block {
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
 		makeGraphic(16,16,0xffff0000);
+		loadGraphic("assets/red.png");
 	}
 
 	override public function update() {

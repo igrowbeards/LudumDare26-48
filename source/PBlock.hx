@@ -8,7 +8,7 @@ class PBlock extends FlxSprite {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(16,16,0xffff00ff);
+		loadGraphic("assets/purple.png");
 		immovable = true;
 	}
 

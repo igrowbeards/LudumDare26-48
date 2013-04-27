@@ -7,11 +7,14 @@ import org.flixel.FlxObject;
 class WBlock extends FlxSprite {
 
 	private var deathTimer:Float;
-	private var deathTime:Float = .25;
+	private var deathTime:Float = .5;
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(16,16,0xffffffff);
+		loadGraphic("assets/white.png");
+		loadGraphic("assets/white.png",true,true,16,16,true);
+		addAnimation("idle", [0,1,2,3], 10, true);
+		play('idle');
 		immovable = true;
 		deathTimer = deathTime;
 	}

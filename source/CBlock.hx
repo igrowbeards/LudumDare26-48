@@ -8,7 +8,7 @@ class CBlock extends FlxSprite {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(16,16,0xff00ffff);
+		loadGraphic("assets/cyan.png");
 		immovable = true;
 	}
 

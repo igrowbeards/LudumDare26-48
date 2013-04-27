@@ -8,7 +8,7 @@ class BBlock extends Block {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(16,16,0xff0000ff);
+		loadGraphic("assets/blue.png");
 	}
 
 	override public function update() {

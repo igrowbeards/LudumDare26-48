@@ -30,9 +30,9 @@ class Player extends FlxSprite {
 		offset.y = 2;
 		offset.x = 2;
 
-		addAnimation("idle", [0,1], 2, true);
-		addAnimation("idle_down", [4,5], 2, true);
-		addAnimation("idle_up", [8,9], 2, true);
+		addAnimation("idle", [0,1], 7, true);
+		addAnimation("idle_down", [4,5], 7, true);
+		addAnimation("idle_up", [8,9], 10, true);
 		addAnimation("hurt_down", [16,17,18,19], 15, true);
 		addAnimation("hurt_side", [12,13,14,15], 15, true);
 		addAnimation("hurt_up", [21,22,23,24], 15, true);
