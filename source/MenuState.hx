@@ -60,23 +60,29 @@ class MenuState extends FlxState {
 		rBlocks = new FlxGroup();
 		rBlocks.add(new RBlock(4,5));
 		add(rBlocks);
+		Registry.rBlocks = rBlocks;
 
 		bBlocks = new FlxGroup();
 		bBlocks.add(new BBlock(8,6));
 		add(bBlocks);
+		Registry.bBlocks = bBlocks;
 
 		gBlocks = new FlxGroup();
 		gBlocks.add(new GBlock(10,5));
 		add(gBlocks);
+		Registry.gBlocks = gBlocks;
 
 		pBlocks = new FlxGroup();
 		add(pBlocks);
+		Registry.pBlocks = pBlocks;
 
 		yBlocks = new FlxGroup();
 		add(yBlocks);
+		Registry.yBlocks = yBlocks;
 
 		cBlocks = new FlxGroup();
 		add(cBlocks);
+		Registry.cBlocks = cBlocks;
 
 		wBlocks = new FlxGroup();
 		add(wBlocks);
@@ -108,13 +114,13 @@ class MenuState extends FlxState {
 		FlxG.collide(player,cBlocks);
 
 		// hot block on block collisions
-		FlxG.collide(rBlocks,bBlocks,RBcollide);
-		FlxG.collide(rBlocks,gBlocks,RGcollide);
-		FlxG.collide(bBlocks,gBlocks,BGcollide);
+		FlxG.overlap(rBlocks,bBlocks,RBcollide);
+		FlxG.overlap(rBlocks,gBlocks,RGcollide);
+		FlxG.overlap(bBlocks,gBlocks,BGcollide);
 
-		FlxG.collide(cBlocks,rBlocks,makeWhiteBlock);
-		FlxG.collide(yBlocks,bBlocks,makeWhiteBlock);
-		FlxG.collide(pBlocks,gBlocks,makeWhiteBlock);
+		FlxG.overlap(cBlocks,rBlocks,makeWhiteBlock);
+		FlxG.overlap(yBlocks,bBlocks,makeWhiteBlock);
+		FlxG.overlap(pBlocks,gBlocks,makeWhiteBlock);
 
 		// blocks collide with themselves
 		FlxG.collide(rBlocks,rBlocks);
@@ -221,18 +227,8 @@ class MenuState extends FlxState {
 	public function blockFuse(b1:FlxObject,b2:FlxObject):FlxPoint {
 		var fuseX:Int;
 		var fuseY:Int;
-		if (b1.x > b2.x) {
-			fuseX = Std.int(b1.x);
-		}
-		else {
-			fuseX = Std.int(b2.x);
-		}
-		if (b1.y > b2.y) {
-			fuseY = Std.int(b1.y);
-		}
-		else {
-			fuseY = Std.int(b2.y);
-		}
+		fuseX = Std.int(b2.x);
+		fuseY = Std.int(b2.y);
 		b1.exists = false;
 		b2.exists = false;
 

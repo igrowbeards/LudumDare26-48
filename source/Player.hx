@@ -7,9 +7,9 @@ import org.flixel.FlxObject;
 
 class Player extends FlxSprite {
 
-	public var rlife:Int = 100;
-	public var glife:Int = 100;
-	public var blife:Int = 100;
+	public var rlife:Int = 20;
+	public var glife:Int = 20;
+	public var blife:Int = 20;
 	public var currentColor:String;
 	public var hurting:Bool;
 	private var moveTimer:Float = 0;
@@ -20,6 +20,10 @@ class Player extends FlxSprite {
 		super(X * 16,Y * 16);
 
 		loadGraphic("assets/player.png",true,true,20,20,true);
+		width = 16;
+		height = 16;
+		offset.y = 2;
+		offset.x = 2;
 
 		addAnimation("idle", [0,1], 2, true);
 		addAnimation("walk", [0,2,0,3], 10, true);
@@ -34,6 +38,7 @@ class Player extends FlxSprite {
 		play("idle");
 
 		currentColor = 'red';
+		immovable = true;
 
 	}
 
@@ -46,34 +51,43 @@ class Player extends FlxSprite {
 
 			// move right
 			if (FlxG.keys.pressed("RIGHT")) {
-				x = x + 16;
-				moveTimer = moveTime;
-				FlxG.log(x / 16 + ", " + y /16);
-				facing = FlxObject.RIGHT;
+				if (!overlapsAt(x + 1, y, Registry.cBlocks) && !overlapsAt(x + 1, y, Registry.pBlocks) && !overlapsAt(x + 1, y, Registry.yBlocks) ) {
+					x = x + 16;
+					moveTimer = moveTime;
+					FlxG.log(x / 16 + ", " + y /16);
+					facing = FlxObject.RIGHT;
+				}
 			}
 
 			// move left
 			else if (FlxG.keys.pressed("LEFT")) {
-				x = x - 16;
-				moveTimer = moveTime;
-				FlxG.log(x / 16 + ", " + y /16);
-				facing = FlxObject.LEFT;
+				if (!overlapsAt(x - 1, y, Registry.cBlocks) && !overlapsAt(x - 1, y, Registry.pBlocks) && !overlapsAt(x - 1, y, Registry.yBlocks) ) {
+					x = x - 16;
+					moveTimer = moveTime;
+					FlxG.log(x / 16 + ", " + y /16);
+					facing = FlxObject.LEFT;
+				}
 			}
 
 			// move up
 			else if (FlxG.keys.pressed("UP")) {
-				y = y - 16;
-				moveTimer = moveTime;
-				FlxG.log(x / 16 + ", " + y /16);
-				facing = FlxObject.UP;
+				if (!overlapsAt(x, y - 1, Registry.cBlocks) && !overlapsAt(x, y - 1, Registry.pBlocks) && !overlapsAt(x, y - 1, Registry.yBlocks) ) {
+					y = y - 16;
+					moveTimer = moveTime;
+					FlxG.log(x / 16 + ", " + y /16);
+					facing = FlxObject.UP;
+				}
 			}
 
 			// movedown
 			else if (FlxG.keys.pressed("DOWN")) {
-				y = y + 16;
-				moveTimer = moveTime;
-				FlxG.log(x / 16 + ", " + y /16);
-				facing = FlxObject.DOWN;
+				if (!overlapsAt(x, y + 1, Registry.cBlocks) && !overlapsAt(x, y + 1, Registry.pBlocks) && !overlapsAt(x, y + 1, Registry.yBlocks) ) {
+
+					y = y + 16;
+					moveTimer = moveTime;
+					FlxG.log(x / 16 + ", " + y /16);
+					facing = FlxObject.DOWN;
+				}
 			}
 
 		}
