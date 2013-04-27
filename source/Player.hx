@@ -6,9 +6,16 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import org.flixel.plugin.photonstorm.FlxControl;
 import org.flixel.plugin.photonstorm.FlxControlHandler;
-import org.flixel.plugin.photonstorm.FlxWeapon;
 
 class Player extends FlxSprite {
+
+	public var red:Bool = false;
+	public var green:Bool = false;
+	public var blue:Bool = true;
+
+	public var rlife:Int = 100;
+	public var glife:Int = 100;
+	public var blife:Int = 100;
 
 	override public function new(X:Int,Y:Int) {
 
@@ -32,7 +39,6 @@ class Player extends FlxSprite {
 		FlxControl.create(this, FlxControlHandler.MOVEMENT_INSTANT, FlxControlHandler.STOPPING_INSTANT, 1, true, true);
 		FlxControl.player1.setCursorControl(true,true,true,true);
 		FlxControl.player1.setStandardSpeed(150);
-
 
 	}
 

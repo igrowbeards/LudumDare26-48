@@ -17,29 +17,53 @@ import org.flixel.FlxPoint;
 import org.flixel.FlxGroup;
 import org.flixel.plugin.photonstorm.FlxMath;
 import org.flixel.addons.FlxBackdrop;
+import org.flixel.plugin.photonstorm.FlxBar;
 
 class MenuState extends FlxState {
 
 	public var player:Player;
 	public var level:FlxTilemap;
-	public var blocks:FlxGroup;
+	public var rBlocks:FlxGroup;
+	public var bBlocks:FlxGroup;
+	public var gBlocks:FlxGroup;
 	public var blockMat:FlxSprite;
+	public var rlifeBar:FlxBar;
+	public var glifeBar:FlxBar;
+	public var blifeBar:FlxBar;
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
 		blockMat = new FlxSprite(50,50);
-		blockMat.makeGraphic(FlxG.width -100, FlxG.height - 100, 0xffffffff);
+		blockMat.makeGraphic(FlxG.width -100, FlxG.height - 100, 0x11ffffff);
 		add(blockMat);
 
 		player = new Player(2,3);
 		add(player);
 		Registry.player = player;
 
-		blocks = new FlxGroup();
-		blocks.add(new Block(4,5));
-		add(blocks);
+		rBlocks = new FlxGroup();
+		rBlocks.add(new RBlock(4,5));
+		add(rBlocks);
+
+		bBlocks = new FlxGroup();
+		bBlocks.add(new BBlock(8,6));
+		add(bBlocks);
+
+		gBlocks = new FlxGroup();
+		gBlocks.add(new GBlock(10,5));
+		add(gBlocks);
+
+		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
+		add(rlifeBar);
+
+		glifeBar = new FlxBar(5, 10, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "glife");
+		add(glifeBar);
+
+		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
+		add(blifeBar);
+
  	}
 
 	override public function destroy():Void {
@@ -48,7 +72,49 @@ class MenuState extends FlxState {
 
 	override public function update():Void {
 		super.update();
-		FlxG.collide(blocks,player);
+		FlxG.collide(rBlocks,player,playerHitRBlock);
+		FlxG.collide(bBlocks,player,playerHitBBlock);
+		FlxG.collide(gBlocks,player,playerHitGBlock);
 	}
+
+	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
+		var p:Player = cast(playerRef,Player);
+		if (!Registry.player.red) {
+			if (Registry.player.blue) {
+				p.blife--;
+			}
+			else if (Registry.player.green) {
+				p.glife--;
+			}
+
+		}
+	}
+
+	public function playerHitBBlock(blockRef:FlxObject,playerRef:FlxObject) {
+		var p:Player = cast(playerRef,Player);
+		if (!Registry.player.blue) {
+			if (Registry.player.red) {
+				p.rlife--;
+			}
+			else if (Registry.player.green) {
+				p.glife--;
+			}
+
+		}
+	}
+
+	public function playerHitGBlock(blockRef:FlxObject,playerRef:FlxObject) {
+		var p:Player = cast(playerRef,Player);
+		if (!Registry.player.green) {
+			if (Registry.player.red) {
+				p.rlife--;
+			}
+			else if (Registry.player.blue) {
+				p.blife--;
+			}
+
+		}
+	}
+
 
 }
