@@ -4,6 +4,7 @@ import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
+import org.flixel.tweens.motion.LinearMotion;
 
 class Player extends FlxSprite {
 
@@ -14,6 +15,8 @@ class Player extends FlxSprite {
 	public var hurting:Bool;
 	private var moveTimer:Float = 0;
 	public var moveTime:Float = 0.25;
+	private var targetX:Float;
+	private var targetY:Float;
 
 	override public function new(X:Int,Y:Int) {
 
@@ -44,17 +47,26 @@ class Player extends FlxSprite {
 
 	override public function update() {
 
-
-		// MOVEMENT
+		if (x < targetX) {
+			x += 8;
+		}
+		else if (x > targetX) {
+			x -= 8;
+		}
+		else if (targetY > y) {
+			y += 8;
+		}
+		else if (targetY < y) {
+			y -= 8;
+		}
 
 		if (moveTimer <= 0) {
 
 			// move right
 			if (FlxG.keys.pressed("RIGHT")) {
 				if (!overlapsAt(x + 1, y, Registry.cBlocks) && !overlapsAt(x + 1, y, Registry.pBlocks) && !overlapsAt(x + 1, y, Registry.yBlocks) ) {
-					x = x + 16;
+					targetX = x + 16;
 					moveTimer = moveTime;
-					FlxG.log(x / 16 + ", " + y /16);
 					facing = FlxObject.RIGHT;
 				}
 			}
@@ -62,9 +74,8 @@ class Player extends FlxSprite {
 			// move left
 			else if (FlxG.keys.pressed("LEFT")) {
 				if (!overlapsAt(x - 1, y, Registry.cBlocks) && !overlapsAt(x - 1, y, Registry.pBlocks) && !overlapsAt(x - 1, y, Registry.yBlocks) ) {
-					x = x - 16;
+					targetX = x - 16;
 					moveTimer = moveTime;
-					FlxG.log(x / 16 + ", " + y /16);
 					facing = FlxObject.LEFT;
 				}
 			}
@@ -72,9 +83,8 @@ class Player extends FlxSprite {
 			// move up
 			else if (FlxG.keys.pressed("UP")) {
 				if (!overlapsAt(x, y - 1, Registry.cBlocks) && !overlapsAt(x, y - 1, Registry.pBlocks) && !overlapsAt(x, y - 1, Registry.yBlocks) ) {
-					y = y - 16;
+					targetY = y - 16;
 					moveTimer = moveTime;
-					FlxG.log(x / 16 + ", " + y /16);
 					facing = FlxObject.UP;
 				}
 			}
@@ -82,10 +92,8 @@ class Player extends FlxSprite {
 			// movedown
 			else if (FlxG.keys.pressed("DOWN")) {
 				if (!overlapsAt(x, y + 1, Registry.cBlocks) && !overlapsAt(x, y + 1, Registry.pBlocks) && !overlapsAt(x, y + 1, Registry.yBlocks) ) {
-
-					y = y + 16;
+					targetY = y + 16;
 					moveTimer = moveTime;
-					FlxG.log(x / 16 + ", " + y /16);
 					facing = FlxObject.DOWN;
 				}
 			}

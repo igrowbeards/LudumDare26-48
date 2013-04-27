@@ -40,7 +40,7 @@ class MenuState extends FlxState {
 	public var blifeBar:FlxBar;
 
 	private var spawnTimer:Float;
-	private var spawnTime:Float = 0.1;
+	private var spawnTime:Float = 1;
 
 
 	override public function create():Void {
@@ -53,22 +53,22 @@ class MenuState extends FlxState {
 
 		//add(new FlxBackdrop("assets/temp_grid.png",true,true));
 
-		player = new Player(2,3);
-		add(player);
-		Registry.player = player;
-
 		rBlocks = new FlxGroup();
 		rBlocks.add(new RBlock(4,5));
+		rBlocks.add(new RBlock(9,5));
 		add(rBlocks);
 		Registry.rBlocks = rBlocks;
 
 		bBlocks = new FlxGroup();
 		bBlocks.add(new BBlock(8,6));
+		bBlocks.add(new BBlock(12,6));
+		bBlocks.add(new BBlock(14,16));
 		add(bBlocks);
 		Registry.bBlocks = bBlocks;
 
 		gBlocks = new FlxGroup();
 		gBlocks.add(new GBlock(10,5));
+		gBlocks.add(new GBlock(4,9));
 		add(gBlocks);
 		Registry.gBlocks = gBlocks;
 
@@ -86,6 +86,11 @@ class MenuState extends FlxState {
 
 		wBlocks = new FlxGroup();
 		add(wBlocks);
+
+		player = new Player(3,3);
+		add(player);
+		Registry.player = player;
+
 
 		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
 		add(rlifeBar);
@@ -106,12 +111,9 @@ class MenuState extends FlxState {
 		super.update();
 
 		// player collisions
-		FlxG.collide(rBlocks,player,playerHitRBlock);
-		FlxG.collide(bBlocks,player,playerHitBBlock);
-		FlxG.collide(gBlocks,player,playerHitGBlock);
-		FlxG.collide(player,pBlocks);
-		FlxG.collide(player,yBlocks);
-		FlxG.collide(player,cBlocks);
+		FlxG.overlap(rBlocks,player,playerHitRBlock);
+		FlxG.overlap(bBlocks,player,playerHitBBlock);
+		FlxG.overlap(gBlocks,player,playerHitGBlock);
 
 		// hot block on block collisions
 		FlxG.overlap(rBlocks,bBlocks,RBcollide);
@@ -149,7 +151,6 @@ class MenuState extends FlxState {
 		}
 
 		/*
-
 		if (spawnTimer >= 0) {
 			spawnTimer -= FlxG.elapsed;
 		}
@@ -157,13 +158,13 @@ class MenuState extends FlxState {
 			spawnBlock();
 			spawnTimer = spawnTime;
 		}
-
 		*/
 
 	}
 
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
+		var b:RBlock = cast(blockRef,RBlock);
 		if (Registry.player.currentColor != 'red') {
 			p.hurting = true;
 			if (Registry.player.currentColor == 'blue') {
@@ -172,12 +173,13 @@ class MenuState extends FlxState {
 			else if (Registry.player.currentColor == 'green') {
 				p.glife--;
 			}
-
 		}
+		moveBlock(p,b);
 	}
 
 	public function playerHitBBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
+		var b:BBlock = cast(blockRef,BBlock);
 		if (Registry.player.currentColor != 'blue') {
 			p.hurting = true;
 			if (Registry.player.currentColor == 'red') {
@@ -186,12 +188,13 @@ class MenuState extends FlxState {
 			else if (Registry.player.currentColor == 'green') {
 				p.glife--;
 			}
-
 		}
+		moveBlock(p,b);
 	}
 
 	public function playerHitGBlock(blockRef:FlxObject,playerRef:FlxObject) {
 		var p:Player = cast(playerRef,Player);
+		var b:GBlock = cast(blockRef,GBlock);
 		if (Registry.player.currentColor != 'green') {
 			p.hurting = true;
 			if (Registry.player.currentColor == 'red') {
@@ -200,8 +203,8 @@ class MenuState extends FlxState {
 			else if (Registry.player.currentColor == 'blue') {
 				p.blife--;
 			}
-
 		}
+		moveBlock(p,b);
 	}
 
 	public function RBcollide(b1:FlxObject,b2:FlxObject) {
@@ -234,6 +237,24 @@ class MenuState extends FlxState {
 
 		return(new FlxPoint(fuseX,fuseY));
 	}
+
+	public function moveBlock(p:Player,b:Block) {
+		if (p.x < b.x) {
+			b.x += 16;
+		}
+		else if (p.x > b.x) {
+			b.x -= 16;
+		}
+		else if (p.y > b.y) {
+			b.y -= 16;
+		}
+		else if (p.y < b.y) {
+			b.y += 16;
+		}
+		b.disableCol();
+	}
+
+
 
 	public function spawnBlock():Void {
 		var spawnX:Int;

@@ -8,32 +8,33 @@ class Block extends FlxSprite {
 
 	private var screenBuffer:Int = 50;
 	private var friction:Int = 300;
+	private var colTimer:Float;
+	private var colTime:Float  = .2;
 
 	override public function new(X:Int,Y:Int) {
 
 		super(X * 16,Y * 16);
 		makeGraphic(14,14,0xffff0000);
+		colTimer = colTime;
 
 	}
 
 	override public function update() {
 
-		if (x < screenBuffer) {
-			x = screenBuffer;
+		// debounce collisions
+		if (allowCollisions == FlxObject.NONE) {
+			if (colTimer <= 0) {
+				allowCollisions = FlxObject.ANY;
+				colTimer = colTime;
+			}
+			else {
+				colTimer -= FlxG.elapsed;
+			}
 		}
+	}
 
-		if (x > FlxG.width - this.width - screenBuffer) {
-			x = FlxG.width - this.width - screenBuffer;
-		}
-
-		if (y < screenBuffer) {
-			y = screenBuffer;
-		}
-
-		if (y > FlxG.height - this.height - screenBuffer) {
-			y = FlxG.height - this.height - screenBuffer;
-		}
-
+	public function disableCol() {
+		allowCollisions = FlxObject.NONE;
 	}
 
 }
