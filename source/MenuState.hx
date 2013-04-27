@@ -39,6 +39,10 @@ class MenuState extends FlxState {
 	public var glifeBar:FlxBar;
 	public var blifeBar:FlxBar;
 
+	private var spawnTimer:Float;
+	private var spawnTime:Float = 0.5;
+
+
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
@@ -125,6 +129,14 @@ class MenuState extends FlxState {
 			Registry.player.resetController();
 		}
 
+		if (spawnTimer >= 0) {
+			spawnTimer -= FlxG.elapsed;
+		}
+		else {
+			spawnBlock();
+			spawnTimer = spawnTime;
+		}
+
 	}
 
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {
@@ -208,6 +220,17 @@ class MenuState extends FlxState {
 		b2.exists = false;
 
 		return(new FlxPoint(fuseX,fuseY));
+	}
+
+	public function spawnBlock():Void {
+		switch (Std.random(3)) {
+			case 0:
+				rBlocks.add(new RBlock(Std.random(26),Std.random(26)));
+			case 1:
+				bBlocks.add(new BBlock(Std.random(26),Std.random(26)));
+			case 2:
+				gBlocks.add(new GBlock(Std.random(26),Std.random(26)));
+		}
 	}
 
 }

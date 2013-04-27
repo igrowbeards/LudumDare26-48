@@ -11,7 +11,7 @@ class WBlock extends FlxSprite {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(32,32,0xffffffff);
+		makeGraphic(16,16,0xffffffff);
 		immovable = true;
 		deathTimer = deathTime;
 	}

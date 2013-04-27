@@ -8,7 +8,7 @@ class RBlock extends Block {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(32,32,0xffff0000);
+		makeGraphic(16,16,0xffff0000);
 	}
 
 	override public function update() {

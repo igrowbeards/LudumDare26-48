@@ -12,7 +12,7 @@ class Block extends FlxSprite {
 	override public function new(X:Int,Y:Int) {
 
 		super(X * 16,Y * 16);
-		makeGraphic(32,32,0xffff0000);
+		makeGraphic(16,16,0xffff0000);
 		drag.x = friction;
 		drag.y = friction;
 

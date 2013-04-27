@@ -8,7 +8,7 @@ class GBlock extends Block {
 
 	override public function new(X:Int,Y:Int) {
 		super(X,Y);
-		makeGraphic(32,32,0xff00ff00);
+		makeGraphic(16,16,0xff00ff00);
 	}
 
 	override public function update() {
