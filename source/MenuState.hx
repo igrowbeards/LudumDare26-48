@@ -18,14 +18,22 @@ import org.flixel.FlxGroup;
 import org.flixel.plugin.photonstorm.FlxMath;
 import org.flixel.addons.FlxBackdrop;
 import org.flixel.plugin.photonstorm.FlxBar;
+import org.flixel.plugin.photonstorm.FlxVelocity;
 
 class MenuState extends FlxState {
 
 	public var player:Player;
+
 	public var level:FlxTilemap;
+
 	public var rBlocks:FlxGroup;
 	public var bBlocks:FlxGroup;
 	public var gBlocks:FlxGroup;
+	public var pBlocks:FlxGroup;
+	public var yBlocks:FlxGroup;
+	public var cBlocks:FlxGroup;
+	public var wBlocks:FlxGroup;
+
 	public var blockMat:FlxSprite;
 	public var rlifeBar:FlxBar;
 	public var glifeBar:FlxBar;
@@ -37,7 +45,6 @@ class MenuState extends FlxState {
 		FlxG.mouse.hide();
 
 		blockMat = new FlxSprite(49,49);
-		//blockMat.makeGraphic(FlxG.width -100, FlxG.height - 100, 0x11ffffff);
 		blockMat.loadGraphic("assets/bounds.png");
 		add(blockMat);
 
@@ -58,6 +65,18 @@ class MenuState extends FlxState {
 		gBlocks = new FlxGroup();
 		gBlocks.add(new GBlock(10,5));
 		add(gBlocks);
+
+		pBlocks = new FlxGroup();
+		add(pBlocks);
+
+		yBlocks = new FlxGroup();
+		add(yBlocks);
+
+		cBlocks = new FlxGroup();
+		add(cBlocks);
+
+		wBlocks = new FlxGroup();
+		add(wBlocks);
 
 		shrine = new ColorShrine(12,16);
 		add(shrine);
@@ -82,13 +101,32 @@ class MenuState extends FlxState {
 
 	override public function update():Void {
 		super.update();
+
+		// player collisions
 		FlxG.collide(rBlocks,player,playerHitRBlock);
 		FlxG.collide(bBlocks,player,playerHitBBlock);
 		FlxG.collide(gBlocks,player,playerHitGBlock);
 		FlxG.overlap(shrine,player,changeColor);
+		FlxG.collide(player,pBlocks);
+		FlxG.collide(player,yBlocks);
+		FlxG.collide(player,cBlocks);
+
+		// hot block on block collisions
+		FlxG.collide(rBlocks,bBlocks,RBcollide);
+		FlxG.collide(rBlocks,gBlocks,RGcollide);
+		FlxG.collide(bBlocks,gBlocks,BGcollide);
+
+		FlxG.collide(cBlocks,rBlocks,makeWhiteBlock);
+		FlxG.collide(yBlocks,bBlocks,makeWhiteBlock);
+		FlxG.collide(pBlocks,gBlocks,makeWhiteBlock);
 
 		// gameover condition
 		if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
+			FlxG.resetState();
+			Registry.player.resetController();
+		}
+
+		if (FlxG.keys.justPressed("R")) {
 			FlxG.resetState();
 			Registry.player.resetController();
 		}
@@ -138,6 +176,45 @@ class MenuState extends FlxState {
 		Registry.player.currentColor = Registry.shrine.currentColor;
 	}
 
+	public function RBcollide(b1:FlxObject,b2:FlxObject) {
+		var spawn:FlxPoint = blockFuse(b1,b2);
+		pBlocks.add(new PBlock(Std.int(spawn.x),Std.int(spawn.y)));
+	}
 
+	public function RGcollide(b1:FlxObject,b2:FlxObject) {
+		var spawn:FlxPoint = blockFuse(b1,b2);
+		yBlocks.add(new YBlock(Std.int(spawn.x),Std.int(spawn.y)));
+	}
+
+	public function BGcollide(b1:FlxObject,b2:FlxObject) {
+		var spawn:FlxPoint = blockFuse(b1,b2);
+		cBlocks.add(new CBlock(Std.int(spawn.x),Std.int(spawn.y)));
+	}
+
+	public function makeWhiteBlock(b1:FlxObject,b2:FlxObject) {
+		var spawn:FlxPoint = blockFuse(b1,b2);
+		wBlocks.add(new WBlock(Std.int(spawn.x),Std.int(spawn.y)));
+	}
+
+	public function blockFuse(b1:FlxObject,b2:FlxObject):FlxPoint {
+		var fuseX:Int;
+		var fuseY:Int;
+		if (b1.x > b2.x) {
+			fuseX = Std.int(b1.x - (b1.x - b2.x) / 2);
+		}
+		else {
+			fuseX = Std.int(b2.x - (b2.x - b1.x) / 2);
+		}
+		if (b1.y > b2.y) {
+			fuseY = Std.int( b1.y - (b1.y - b2.y) / 2);
+		}
+		else {
+			fuseY = Std.int( b2.y - (b2.y - b1.y) / 2);
+		}
+		b1.exists = false;
+		b2.exists = false;
+
+		return(new FlxPoint(fuseX,fuseY));
+	}
 
 }
