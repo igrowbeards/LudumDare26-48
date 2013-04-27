@@ -90,8 +90,6 @@ class MenuState extends FlxState {
 		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
 		add(blifeBar);
 
-		FlxG.log(FlxG.height + ", " + FlxG.width);
-
  	}
 
 	override public function destroy():Void {
@@ -223,13 +221,22 @@ class MenuState extends FlxState {
 	}
 
 	public function spawnBlock():Void {
+		var spawnX:Int;
+		var spawnY:Int;
+
+		var min:Int = 3;
+		var max:Int = 21;
+
+		spawnX = min + Std.int(Math.random() * ((max - min) + 1));
+		spawnY = min + Std.int(Math.random() * ((max - min) + 1));
+
 		switch (Std.random(3)) {
 			case 0:
-				rBlocks.add(new RBlock(Std.random(26),Std.random(26)));
+				rBlocks.add(new RBlock(spawnX,spawnY));
 			case 1:
-				bBlocks.add(new BBlock(Std.random(26),Std.random(26)));
+				bBlocks.add(new BBlock(spawnX,spawnY));
 			case 2:
-				gBlocks.add(new GBlock(Std.random(26),Std.random(26)));
+				gBlocks.add(new GBlock(spawnX,spawnY));
 		}
 	}
 
