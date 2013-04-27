@@ -136,12 +136,10 @@ class MenuState extends FlxState {
 		// gameover condition
 		if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
 			FlxG.resetState();
-			Registry.player.resetController();
 		}
 
 		if (FlxG.keys.justPressed("R")) {
 			FlxG.resetState();
-			Registry.player.resetController();
 		}
 
 		/*

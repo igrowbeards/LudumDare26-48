@@ -4,8 +4,6 @@ import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
-import org.flixel.plugin.photonstorm.FlxControl;
-import org.flixel.plugin.photonstorm.FlxControlHandler;
 
 class Player extends FlxSprite {
 
@@ -14,6 +12,8 @@ class Player extends FlxSprite {
 	public var blife:Int = 100;
 	public var currentColor:String;
 	public var hurting:Bool;
+	private var moveTimer:Float = 0;
+	public var moveTime:Float = 0.25;
 
 	override public function new(X:Int,Y:Int) {
 
@@ -33,20 +33,56 @@ class Player extends FlxSprite {
 
 		play("idle");
 
-		if (FlxG.getPlugin(FlxControl) == null) {
-			FlxG.addPlugin(new FlxControl());
-		}
-
-		FlxControl.create(this, FlxControlHandler.MOVEMENT_INSTANT, FlxControlHandler.STOPPING_INSTANT, 1, true, true);
-		FlxControl.player1.setCursorControl(true,true,true,true);
-		FlxControl.player1.setStandardSpeed(150);
-
 		currentColor = 'red';
 
 	}
 
 	override public function update() {
 
+
+		// MOVEMENT
+
+		if (moveTimer <= 0) {
+
+			// move right
+			if (FlxG.keys.pressed("RIGHT")) {
+				x = x + 16;
+				moveTimer = moveTime;
+				FlxG.log(x / 16 + ", " + y /16);
+				facing = FlxObject.RIGHT;
+			}
+
+			// move left
+			else if (FlxG.keys.pressed("LEFT")) {
+				x = x - 16;
+				moveTimer = moveTime;
+				FlxG.log(x / 16 + ", " + y /16);
+				facing = FlxObject.LEFT;
+			}
+
+			// move up
+			else if (FlxG.keys.pressed("UP")) {
+				y = y - 16;
+				moveTimer = moveTime;
+				FlxG.log(x / 16 + ", " + y /16);
+				facing = FlxObject.UP;
+			}
+
+			// movedown
+			else if (FlxG.keys.pressed("DOWN")) {
+				y = y + 16;
+				moveTimer = moveTime;
+				FlxG.log(x / 16 + ", " + y /16);
+				facing = FlxObject.DOWN;
+			}
+
+		}
+
+		if (moveTimer >= 0) {
+			moveTimer -= FlxG.elapsed;
+		}
+
+		// animations
 
 		if (velocity.x != 0 && velocity.y >= 0) {
 			if (hurting) {
@@ -120,22 +156,6 @@ class Player extends FlxSprite {
 			}
 		}
 
-		if (x < 0) {
-			x = 0;
-		}
-
-		if (x > FlxG.width - this.width) {
-			x = FlxG.width - this.width;
-		}
-
-		if (y < 0) {
-			y = 0;
-		}
-
-		if (y > FlxG.height - this.height) {
-			y = FlxG.height - this.height;
-		}
-
 		// switch color controls
 		if (FlxG.keys.justPressed("ONE")) {
 			currentColor = 'red';
@@ -160,10 +180,6 @@ class Player extends FlxSprite {
 
 		hurting = false;
 
-	}
-
-	public function resetController():Void {
-		FlxControl.clear();
 	}
 
 }
