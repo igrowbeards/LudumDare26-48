@@ -43,7 +43,7 @@ class MenuState extends FlxState {
 	private var spawnTime:Float = 1;
 
 	public var timerText:FlxText;
-	public var gameTime:Float = 60;
+	public var gameTime:Float = 15;
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
@@ -94,18 +94,20 @@ class MenuState extends FlxState {
 		add(player);
 		Registry.player = player;
 
-
-		rlifeBar = new FlxBar(5, 5, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "rlife");
+		rlifeBar = new FlxBar(48, 355, FlxBar.FILL_LEFT_TO_RIGHT, 64, 8, player, "rlife", 0, 3,true);
+		rlifeBar.createFilledBar(0x3cff0000, 0xaaff0000, 0xffff0000);
 		add(rlifeBar);
 
-		glifeBar = new FlxBar(5, 10, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "glife");
+		glifeBar = new FlxBar(48, 365, FlxBar.FILL_LEFT_TO_RIGHT, 64, 8, player, "glife", 0, 3,true);
+		glifeBar.createFilledBar(0x3c00ff00, 0xaa00ff00);
 		add(glifeBar);
 
-		blifeBar = new FlxBar(5, 15, FlxBar.FILL_LEFT_TO_RIGHT, 20, 4, player, "blife");
+		blifeBar = new FlxBar(48, 375, FlxBar.FILL_LEFT_TO_RIGHT, 64, 8, player, "blife", 0, 3,true);
+		blifeBar.createFilledBar(0x3c0000ff, 0xaa0000ff);
 		add(blifeBar);
 
-		timerText = new FlxText(0,12,FlxG.width - 50, "Time");
-		timerText.alignment = 'right';
+		timerText = new FlxText(0,12,FlxG.width, "Time");
+		timerText.alignment = 'center';
 		timerText.size = 16;
 		add(timerText);
 
@@ -120,6 +122,17 @@ class MenuState extends FlxState {
 
 		timerText.text = Std.string(Std.int(gameTime));
 		gameTime -= FlxG.elapsed;
+
+		if (gameTime <= 11) {
+			timerText.color = 0xffff0000;
+			timerText.size = 24;
+			timerText.y = 8;
+		}
+		else {
+			timerText.color = 0xffffffff;
+			timerText.size = 16;
+			timerText.y = 12;
+		}
 
 		// player collisions
 		FlxG.overlap(rBlocks,player,playerHitRBlock);
