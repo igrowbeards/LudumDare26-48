@@ -43,7 +43,10 @@ class MenuState extends FlxState {
 	private var spawnTime:Float = 1;
 
 	public var timerText:FlxText;
-	public var gameTime:Float = 15;
+	public var scoreText:FlxText;
+	public var gameTime:Float = 45;
+
+	public var score_block:FlxSprite;
 
 	override public function create():Void {
 		FlxG.bgColor = 0xff000000;
@@ -111,6 +114,15 @@ class MenuState extends FlxState {
 		timerText.size = 16;
 		add(timerText);
 
+		scoreText = new FlxText(48,360, 304, "x  0");
+		scoreText.alignment = 'right';
+		scoreText.size = 16;
+		add(scoreText);
+
+		score_block = new FlxSprite(285,364);
+		score_block.loadGraphic("assets/score_blocks.png");
+		add(score_block);
+
  	}
 
 	override public function destroy():Void {
@@ -123,7 +135,7 @@ class MenuState extends FlxState {
 		timerText.text = Std.string(Std.int(gameTime));
 		gameTime -= FlxG.elapsed;
 
-		if (gameTime <= 11) {
+		if (gameTime <= 10) {
 			timerText.color = 0xffff0000;
 			timerText.size = 24;
 			timerText.y = 8;
