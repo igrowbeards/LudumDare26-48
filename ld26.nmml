@@ -29,6 +29,8 @@
 		<sound path="data/beep.mp3" id="Beep" />
 		<sound path="hurt.mp3" id="hurt" />
 		<sound path="move_block.wav" id="move_block" />
+		<sound path="merge_blocks.wav" id="merge" />
+		<sound path="remove_block.wav" id="clear" />
 
 		<!-- Your sound embedding code here... -->
 

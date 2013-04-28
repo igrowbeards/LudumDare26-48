@@ -266,12 +266,14 @@ class MenuState extends FlxState {
 
 	public function makeWhiteBlock(b1:FlxObject,b2:FlxObject) {
 		FlxG.score += 1;
+		FlxG.play("clear");
 		gameTime += 5;
 		var spawn:FlxPoint = blockFuse(b1,b2);
 		wBlocks.add(new WBlock(Std.int(spawn.x),Std.int(spawn.y)));
 	}
 
 	public function blockFuse(b1:FlxObject,b2:FlxObject):FlxPoint {
+		FlxG.play("merge");
 		var fuseX:Int;
 		var fuseY:Int;
 		fuseX = Std.int(b2.x);
