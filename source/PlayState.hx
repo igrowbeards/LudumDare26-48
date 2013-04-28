@@ -24,8 +24,6 @@ class PlayState extends FlxState {
 
 	public var player:Player;
 
-	public var level:FlxTilemap;
-
 	public var rBlocks:FlxGroup;
 	public var bBlocks:FlxGroup;
 	public var gBlocks:FlxGroup;
@@ -228,11 +226,21 @@ class PlayState extends FlxState {
 
 			// gameover conditions
 			if (Registry.player.rlife <= 0 && Registry.player.glife <= 0 && Registry.player.blife <= 0) {
-				gameOver("death");
+				if (FlxG.score > Registry.highScore) {
+					gameOver("death",true);
+				}
+				else {
+					gameOver("death");
+				}
 			}
 
 			if (gameTime <= 0) {
-				gameOver("time");
+				if (FlxG.score > Registry.highScore) {
+					gameOver("time",true);
+				}
+				else {
+					gameOver("time");
+				}
 			}
 
 			// reset state for debug etc
@@ -252,6 +260,7 @@ class PlayState extends FlxState {
 			}
 		}
 		else {
+
 			if (FlxG.keys.justPressed("DOWN")) {
 				FlxG.play('move_block');
 				if (gameOverOption < 2) {
@@ -440,13 +449,21 @@ class PlayState extends FlxState {
 		}
 	}
 
-	public function gameOver(cause:String) {
+	public function gameOver(cause:String,newHighScore:Bool = false) {
+
 		gameover = true;
+
+		if (newHighScore) {
+			gameOverText.text = "New High Score!";
+			gameOverText.size = 24;
+		}
+
 		gameOverText.exists = true;
 		gameOverDim.exists = true;
 		gameOverDetails.exists = true;
 		optionsText.exists = true;
 		optionsIndicator.exists = true;
+
 		if (cause == "death") {
 			gameOverDetails.text = "You cleared " + FlxG.score + " pixels before dying.";
 		}
