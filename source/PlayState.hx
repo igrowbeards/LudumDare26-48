@@ -47,8 +47,7 @@ class PlayState extends FlxState {
 	public var gameOverText:FlxText;
 	public var gameOverDetails:FlxText;
 	public var optionsText:FlxText;
-	//public var gameTime:Float = 45;
-	public var gameTime:Float = 1;
+	public var gameTime:Float = 45;
 
 	public var score_block:FlxSprite;
 
@@ -254,6 +253,7 @@ class PlayState extends FlxState {
 		}
 		else {
 			if (FlxG.keys.justPressed("DOWN")) {
+				FlxG.play('move_block');
 				if (gameOverOption < 2) {
 					gameOverOption++;
 				}
@@ -262,6 +262,7 @@ class PlayState extends FlxState {
 				}
 			}
 			if (FlxG.keys.justPressed("UP")) {
+				FlxG.play('move_block');
 				if (gameOverOption == 0) {
 					gameOverOption = 2;
 				}
@@ -283,16 +284,41 @@ class PlayState extends FlxState {
 			}
 
 			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("ENTER")) {
+				FlxG.play('start');
 				switch (gameOverOption) {
 					case 0:
-						FlxG.resetState();
+						fadeOutToPlayState();
 					case 1:
-						//nothing yet
+						fadeOutToMenu();
 					case 2:
-						FlxG.switchState(new CreditState());
+						fadeOutToCredits();
 				}
 			}
 		}
+	}
+
+	public function fadeOutToCredits():Void {
+		FlxG.fade(0xff000000,.5,loadCredits);
+	}
+
+	public function loadCredits() {
+		FlxG.switchState(new CreditState());
+	}
+
+	public function fadeOutToPlayState():Void {
+		FlxG.fade(0xff000000,.5,loadPlayState);
+	}
+
+	public function loadPlayState() {
+		FlxG.switchState(new PlayState());
+	}
+
+	public function fadeOutToMenu():Void {
+		FlxG.fade(0xff000000,.5,loadMenu);
+	}
+
+	public function loadMenu() {
+		FlxG.switchState(new MenuState());
 	}
 
 	public function playerHitRBlock(blockRef:FlxObject,playerRef:FlxObject) {

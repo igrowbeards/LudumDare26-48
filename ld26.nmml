@@ -33,6 +33,7 @@
 		<sound path="move_block.wav" id="move_block" />
 		<sound path="merge_blocks.wav" id="merge" />
 		<sound path="remove_block.wav" id="clear" />
+		<sound path="start.mp3" id="start" />
 
 		<!-- Your sound embedding code here... -->
 

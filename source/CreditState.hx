@@ -72,6 +72,7 @@ class CreditState extends FlxState {
 
 	override public function update():Void {
 		if (FlxG.keys.justPressed("DOWN")) {
+			FlxG.play('move_block');
 			if (gameOverOption < 1) {
 				gameOverOption++;
 			}
@@ -80,6 +81,7 @@ class CreditState extends FlxState {
 			}
 		}
 		if (FlxG.keys.justPressed("UP")) {
+			FlxG.play('move_block');
 			if (gameOverOption == 0) {
 				gameOverOption = 1;
 			}
@@ -101,13 +103,31 @@ class CreditState extends FlxState {
 		}
 
 		if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("ENTER")) {
+			FlxG.play('start');
 			switch (gameOverOption) {
 				case 0:
-					FlxG.switchState(new PlayState());
+					fadeOutToPlayState();
 				case 1:
-					// nothing yet
+					fadeOutToMenu();
 			}
 		}
 	}
+
+	public function fadeOutToPlayState():Void {
+		FlxG.fade(0xff000000,.5,loadPlayState);
+	}
+
+	public function loadPlayState() {
+		FlxG.switchState(new PlayState());
+	}
+
+	public function fadeOutToMenu():Void {
+		FlxG.fade(0xff000000,.5,loadMenu);
+	}
+
+	public function loadMenu() {
+		FlxG.switchState(new MenuState());
+	}
+
 
 }
