@@ -164,38 +164,33 @@ class Player extends FlxSprite {
 			}
 		}
 
-		// switch color controls
-		if (FlxG.keys.justPressed("ONE")) {
-			currentColor = 'red';
-		}
-		else if (FlxG.keys.justPressed("TWO")) {
-			currentColor = 'green';
-		}
-		else if (FlxG.keys.justPressed("THREE")) {
-			currentColor = 'blue';
-		}
-
 		if (FlxG.keys.justPressed("SPACE")) {
 			switch (currentColor) {
 				case 'red':
 					if (blife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'blue';
 					}
 					else if (glife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'green';
 					}
 				case 'blue':
 					if (glife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'green';
 					}
 					else if (rlife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'red';
 					}
 				case 'green':
 					if (rlife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'red';
 					}
 					else if (blife > 0) {
+						FlxG.play("switch_color");
 						currentColor = 'blue';
 					}
 			}

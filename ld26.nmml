@@ -29,6 +29,7 @@
 		<music path="Podington_Bear_-_Data.mp3" id="music" />
 		<sound path="data/beep.mp3" id="Beep" />
 		<sound path="hurt.mp3" id="hurt" />
+		<sound path="switch_color.wav" id="switch_color" />
 		<sound path="move_block.wav" id="move_block" />
 		<sound path="merge_blocks.wav" id="merge" />
 		<sound path="remove_block.wav" id="clear" />
