@@ -283,6 +283,7 @@ class MenuState extends FlxState {
 	}
 
 	public function moveBlock(p:Player,b:Block) {
+		FlxG.play('move_block');
 		if (p.x < b.x) {
 			b.x += 16;
 		}
