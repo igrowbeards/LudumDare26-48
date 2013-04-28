@@ -52,6 +52,8 @@ class MenuState extends FlxState {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
+		FlxG.score = 0;
+
 		blockMat = new FlxSprite(47,47);
 		blockMat.loadGraphic("assets/bounds.png");
 		add(blockMat);
@@ -90,7 +92,6 @@ class MenuState extends FlxState {
 		Registry.cBlocks = cBlocks;
 
 		wBlocks = new FlxGroup();
-		wBlocks.add(new WBlock(15 * 16,15 * 16));
 		add(wBlocks);
 
 		player = new Player(3,3);
@@ -145,6 +146,8 @@ class MenuState extends FlxState {
 			timerText.size = 16;
 			timerText.y = 12;
 		}
+
+		scoreText.text = "x  " + Std.string(FlxG.score);
 
 		// player collisions
 		FlxG.overlap(rBlocks,player,playerHitRBlock);
@@ -262,7 +265,7 @@ class MenuState extends FlxState {
 	}
 
 	public function makeWhiteBlock(b1:FlxObject,b2:FlxObject) {
-		FlxG.score += 100;
+		FlxG.score += 1;
 		gameTime += 5;
 		var spawn:FlxPoint = blockFuse(b1,b2);
 		wBlocks.add(new WBlock(Std.int(spawn.x),Std.int(spawn.y)));
