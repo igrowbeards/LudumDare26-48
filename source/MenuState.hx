@@ -28,6 +28,7 @@ class MenuState extends FlxState {
 	public var optionsIndicator:FlxSprite;
 	public var gameOverDim:FlxSprite;
 	public var gameOverOption:Int = 0;
+	public var title:FlxSprite;
 
 	override public function create():Void {
 		FlxG.playMusic("music");
@@ -36,9 +37,12 @@ class MenuState extends FlxState {
 
 		add(new FlxBackdrop("assets/grid.png",true,true));
 
-		blockMat = new FlxSprite(47,47);
-		blockMat.loadGraphic("assets/bounds.png");
-		add(blockMat);
+		title = new FlxSprite(17, 52);
+		title.loadGraphic("assets/game_title.png",true,true,365,74,true);
+		title.addAnimation("idle", [0,0,0,0,0,0,0,0,0,0,1,2,3,1,0], 15, true);
+		add(title);
+		title.play("idle");
+		FlxG.log(title.curAnim);
 
 		optionsText = new FlxText(60,295,FlxG.width - 60 * 2, "");
 		optionsText.alignment = 'center';
@@ -56,6 +60,7 @@ class MenuState extends FlxState {
 	}
 
 	override public function update():Void {
+		super.update();
 		if (FlxG.keys.justPressed("DOWN")) {
 			FlxG.play('move_block');
 			if (gameOverOption < 1) {
