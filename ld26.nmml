@@ -26,6 +26,7 @@
 	</assets>
 
 	<assets path="assets" if="flash" >
+		<music path="Podington_Bear_-_Data.mp3" id="music" />
 		<sound path="data/beep.mp3" id="Beep" />
 		<sound path="hurt.mp3" id="hurt" />
 		<sound path="move_block.wav" id="move_block" />

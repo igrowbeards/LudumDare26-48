@@ -49,6 +49,7 @@ class MenuState extends FlxState {
 	public var score_block:FlxSprite;
 
 	override public function create():Void {
+		FlxG.playMusic("music");
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
