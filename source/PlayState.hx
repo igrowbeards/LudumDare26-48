@@ -4,6 +4,7 @@ import nme.Assets;
 import nme.geom.Rectangle;
 import org.flixel.FlxButton;
 import org.flixel.FlxG;
+import org.flixel.FlxSave;
 import org.flixel.FlxPath;
 import org.flixel.FlxSave;
 import org.flixel.FlxSprite;
@@ -54,9 +55,17 @@ class PlayState extends FlxState {
 	public var optionsIndicator:FlxSprite;
 	public var gameOverDim:FlxSprite;
 	public var gameOverOption:Int = 0;
+	public var saveGame:FlxSave;
 
 	override public function create():Void {
-		//FlxG.playMusic("music");
+
+		saveGame = new FlxSave();
+		saveGame.bind("save");
+
+		if (saveGame.data.highScore != null) {
+			Registry.highScore = saveGame.data.highScore;
+		}
+
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
@@ -149,7 +158,7 @@ class PlayState extends FlxState {
 		gameOverDetails.exists = false;
 		add(gameOverDetails);
 
-		optionsText = new FlxText(60,195,FlxG.width - 60 * 2, "");
+		optionsText = new FlxText(60,245,FlxG.width - 60 * 2, "");
 		optionsText.alignment = 'center';
 		optionsText.size = 16;
 		optionsText.exists = false;
@@ -157,7 +166,7 @@ class PlayState extends FlxState {
 		add(optionsText);
 
 
-		optionsIndicator = new FlxSprite(133,196);
+		optionsIndicator = new FlxSprite(133,256);
 		optionsIndicator.loadGraphic("assets/indicator.png");
 		add(optionsIndicator);
 		optionsIndicator.exists = false;
@@ -283,13 +292,13 @@ class PlayState extends FlxState {
 			switch (gameOverOption) {
 				case 0:
 					optionsIndicator.x = 133;
-					optionsIndicator.y = 196;
+					optionsIndicator.y = 247;
 				case 1:
 					optionsIndicator.x = 158;
-					optionsIndicator.y = 219;
+					optionsIndicator.y = 268;
 				case 2:
 					optionsIndicator.x = 150;
-					optionsIndicator.y = 237;
+					optionsIndicator.y = 287;
 			}
 
 			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("ENTER")) {
@@ -457,6 +466,13 @@ class PlayState extends FlxState {
 		if (newHighScore) {
 			gameOverText.text = "New High Score!";
 			gameOverText.size = 24;
+			Registry.highScore = FlxG.score;
+			if (saveGame.data.highScore != null) {
+				saveGame.data.highScore = FlxG.score;
+			}
+			else {
+				saveGame.data.highScore = FlxG.score;
+			}
 		}
 
 		gameOverText.exists = true;
@@ -467,9 +483,15 @@ class PlayState extends FlxState {
 
 		if (cause == "death") {
 			gameOverDetails.text = "You cleared " + FlxG.score + " pixels before dying.";
+			if (!newHighScore) {
+				gameOverDetails.text = gameOverDetails.text + "\nOnly " + Std.string(saveGame.data.highScore - FlxG.score) + " more to beat your High Score of " + Std.string(saveGame.data.highScore) + ".";
+			}
 		}
 		else if (cause == "time") {
 			gameOverDetails.text = "You cleared " + FlxG.score + " pixels before running out of time.";
+			if (!newHighScore) {
+				gameOverDetails.text = gameOverDetails.text + "\nOnly " + Std.string(saveGame.data.highScore - FlxG.score) + " more to beat your High Score of " + Std.string(saveGame.data.highScore) + ".";
+			}
 		}
 	}
 
