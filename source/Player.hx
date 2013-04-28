@@ -16,7 +16,7 @@ class Player extends FlxSprite {
 	public var hurtTimer:Float;
 	public var hurtTime:Float = .25;
 	private var moveTimer:Float = 0;
-	public var moveTime:Float = 0.2;
+	public var moveTime:Float = 0.15;
 	private var targetX:Float;
 	private var targetY:Float;
 
@@ -215,6 +215,7 @@ class Player extends FlxSprite {
 	}
 
 	public function hurtzDonut() {
+		FlxG.play('hurt');
 		hurting = true;
 	}
 
