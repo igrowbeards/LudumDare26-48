@@ -53,7 +53,7 @@ class MenuState extends FlxState {
 		FlxG.bgColor = 0xff000000;
 		FlxG.mouse.hide();
 
-		FlxG.score = 0;
+		FlxG.score = 9;
 
 		blockMat = new FlxSprite(47,47);
 		blockMat.loadGraphic("assets/bounds.png");
@@ -148,7 +148,12 @@ class MenuState extends FlxState {
 			timerText.y = 12;
 		}
 
-		scoreText.text = "x  " + Std.string(FlxG.score);
+		if (FlxG.score - 9 > 0) {
+			scoreText.text = "x " + Std.string(FlxG.score);
+		}
+		else {
+			scoreText.text = "x  " + Std.string(FlxG.score);
+		}
 
 		// player collisions
 		FlxG.overlap(rBlocks,player,playerHitRBlock);
