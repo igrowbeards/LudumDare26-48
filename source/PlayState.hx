@@ -451,6 +451,7 @@ class PlayState extends FlxState {
 
 	public function gameOver(cause:String,newHighScore:Bool = false) {
 
+		FlxG.play("death");
 		gameover = true;
 
 		if (newHighScore) {

@@ -34,6 +34,7 @@
 		<sound path="merge_blocks.wav" id="merge" />
 		<sound path="remove_block.wav" id="clear" />
 		<sound path="start.mp3" id="start" />
+		<sound path="death.wav" id="death" />
 
 		<!-- Your sound embedding code here... -->
 
