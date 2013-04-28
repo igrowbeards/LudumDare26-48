@@ -20,7 +20,7 @@ import org.flixel.addons.FlxBackdrop;
 import org.flixel.plugin.photonstorm.FlxBar;
 import org.flixel.plugin.photonstorm.FlxVelocity;
 
-class MenuState extends FlxState {
+class PlayState extends FlxState {
 
 	public var player:Player;
 
@@ -289,7 +289,7 @@ class MenuState extends FlxState {
 					case 1:
 						//nothing yet
 					case 2:
-						//nothing yet
+						FlxG.switchState(new CreditState());
 				}
 			}
 		}
